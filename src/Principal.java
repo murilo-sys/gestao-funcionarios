@@ -1,7 +1,11 @@
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import model.Funcionario;
 
@@ -24,5 +28,21 @@ public class Principal {
 
         // Removendo o funcionário João da lista usando equalsIgnoreCase para ignorar diferença entre letras maiúsculas e minúsculas
         funcionarios.removeIf(funcionario -> funcionario.getNome().equalsIgnoreCase("João"));
+
+        // Instancia DateTimeFormatter para formatar dataNascimento padrão pt-br
+        DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        // Instacia DecimalFormat para formatar salario, usando DecimalFormatSymbols onde aplica os símbolos correto (separador de milhar e decimal)
+        DecimalFormat formatadorMoeda = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.of("pt","BR")));
+
+        System.out.println("\n==== LISTA DE FUNCIONÁRIOS ===");
+        for (Funcionario f: funcionarios){
+            System.out.println(
+                "Nome: " + f.getNome() +
+                " | Data Nascimento: " + f.getDataNascimento().format(formatadorData) +
+                " | Salário: R$ " + formatadorMoeda.format(f.getSalario()) +
+                " | Função: " + f.getFuncao()
+            );
+        }
     }
 }
