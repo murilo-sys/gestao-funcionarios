@@ -4,8 +4,11 @@ import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import model.Funcionario;
 
@@ -48,6 +51,35 @@ public class Principal {
 
         // Usa o laço de repetição forEach para aumentar em 10% o salário de cada funcionário
         funcionarios.forEach(f -> f.aumentarSalario(10));
+
+        // Cria um map e separa os funcionários pela suas devidas funções/cargo
+        Map<String, List<Funcionario>> funcionariosPorFuncao = funcionarios.stream()
+        .collect(Collectors.groupingBy(Funcionario::getFuncao)); // Usando metodo groupingBy para separar automaticamente por função
+
+        // Printa os funcionários separados por função usando .forEach
+        System.out.println("\n=== LISTA DE FUNCIONÁRIOS AGRUPADOS POR FUNÇÃO ===");
+        funcionariosPorFuncao.forEach((funcao, lista) -> {
+            System.out.println("\nCargo: " + funcao);
+            lista.forEach(f -> System.out.println("  - " + f.getNome()));
+        });
+
+        // Printa os funcionários que fazem aniversário no mes 10 ou 12 usando .filter
+        System.out.println("\n=== LISTA DE FUNCIONÁRIOS QUE FAZEM ANIVERSÁRIO MÊS 10 OU 12 ===");
+        funcionarios.stream().filter(f -> {
+            int mes = f.getDataNascimento().getMonthValue();
+            return mes == 10 || mes == 12;
+        }).forEach(f -> System.out.println(f.getNome() + " - Data: " + f.getDataNascimento().format(formatadorData)));
+
+        // Printa o funcionário com a maior idade
+        Funcionario maisVelho = funcionarios.stream()
+        .min(Comparator.comparing(Funcionario::getDataNascimento))
+        .orElse(null);
+
+        // Caso não seja null
+        if(maisVelho != null){
+            System.out.println("\n=== FUNCIONÁRIO COM MAIOR IDADE ===");
+            System.out.println("Nome: " + maisVelho.getNome() + " | Idade: " + maisVelho.getIdade() + " anos");
+        }
 
     }
 }

@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Pessoa {
     
@@ -22,5 +23,10 @@ public class Pessoa {
      // Metodo getDataNascimento
     public LocalDate getDataNascimento(){
         return dataNascimento;
+    }
+
+    // Metodo que retorna a idade da pessoa
+    public int getIdade(){
+        return Period.between(dataNascimento, LocalDate.now()).getYears();
     }
 }
