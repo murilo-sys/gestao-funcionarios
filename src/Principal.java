@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
@@ -81,11 +82,30 @@ public class Principal {
             System.out.println("Nome: " + maisVelho.getNome() + " | Idade: " + maisVelho.getIdade() + " anos");
         }
 
-        // 3.10 - Imprimir a lista de funcionários por ordem alfabética
+        // Printa a lista de funcionários por ordem alfabética A-Z usando .sorted e .comparing
         System.out.println("\n=== FUNCIONÁRIOS EM ORDEM ALFABÉTICA ===");
         funcionarios.stream()
         .sorted(Comparator.comparing(Funcionario::getNome))
         .forEach(f -> System.out.println(f.getNome()));
+
+        // Mapeia o total dos salários usando .map
+        BigDecimal totalSalarios = funcionarios.stream()
+        .map(Funcionario::getSalario)
+        // Começa com zero, e acrescenta o salário
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        // Printa as informações
+        System.out.println("\n=== TOTAL DOS SALÁRIOS ===");
+        System.out.println("Total da folha de pagamento: R$ " + formatadorMoeda.format(totalSalarios));
+
+        // 3.12 - Imprimir quantos salários mínimos ganha cada funcionário (salário mínimo = R$ 1.212,00)
+        BigDecimal salarioMinimo = new BigDecimal("1212.00");
+        System.out.println("\n=== QUANTIDADE DE SALÁRIOS MÍNIMOS GANHOS POR FUNCIONÁRIO ===");
+        for (Funcionario f : funcionarios) {
+            // Divide o salário pelo salário mínimo com precisão de 2 casas decimais e arredondamento padrão
+            BigDecimal qtdSalariosMinimos = f.getSalario().divide(salarioMinimo, 2, RoundingMode.HALF_UP);
+            System.out.println(f.getNome() + " ganha " + formatadorMoeda.format(qtdSalariosMinimos) + " salários mínimos.");
+        }
 
     }
 }
