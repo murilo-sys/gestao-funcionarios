@@ -81,5 +81,11 @@ public class Principal {
             System.out.println("Nome: " + maisVelho.getNome() + " | Idade: " + maisVelho.getIdade() + " anos");
         }
 
+        // 3.10 - Imprimir a lista de funcionários por ordem alfabética
+        System.out.println("\n=== FUNCIONÁRIOS EM ORDEM ALFABÉTICA ===");
+        funcionarios.stream()
+        .sorted(Comparator.comparing(Funcionario::getNome))
+        .forEach(f -> System.out.println(f.getNome()));
+
     }
 }
