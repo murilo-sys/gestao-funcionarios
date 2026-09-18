@@ -35,6 +35,7 @@ public class Principal {
         // Instacia DecimalFormat para formatar salario, usando DecimalFormatSymbols onde aplica os símbolos correto (separador de milhar e decimal)
         DecimalFormat formatadorMoeda = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.of("pt","BR")));
 
+        // Printa todos os funcionários usando um loop for
         System.out.println("\n==== LISTA DE FUNCIONÁRIOS ===");
         for (Funcionario f: funcionarios){
             System.out.println(
@@ -44,5 +45,9 @@ public class Principal {
                 " | Função: " + f.getFuncao()
             );
         }
+
+        // Usa o laço de repetição forEach para aumentar em 10% o salário de cada funcionário
+        funcionarios.forEach(f -> f.aumentarSalario(10));
+
     }
 }

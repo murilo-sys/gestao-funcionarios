@@ -27,4 +27,23 @@ public class Funcionario extends Pessoa {
     public String getFuncao(){
         return funcao;
     }
+
+    // Metodo para aumentar o salario, recebendo como parametro o percentual
+    public void aumentarSalario(int percentual){
+
+        // Verifica se o valor de entrada não é menor ou igual a 0
+        if (percentual <= 0) {
+            throw new IllegalArgumentException("O percentual deve ser maior que zero");
+        }
+
+        // Transforma o percentual em um fator de multiplicação. 10% vira 1.10
+        // Pelo fato da variavel percentual ser "int", se faz necessário fazer o calculo dentro do BigDecimal
+        BigDecimal fatorAumento = BigDecimal.valueOf(percentual).divide(new BigDecimal("100"));
+        
+        // Calcula o valor que será aumentado do salário
+        BigDecimal aumento = this.salario.multiply(fatorAumento);
+        
+        // Usa a função add para acrescentar o valor de aumento
+        this.salario = this.salario.add(aumento);
+    }
 }
