@@ -19,7 +19,7 @@ public class Pessoa {
         return nome;
     }
 
-     // Metodo getNome
+     // Metodo getDataNascimento
     public LocalDate getDataNascimento(){
         return dataNascimento;
     }
